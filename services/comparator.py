@@ -2,18 +2,25 @@ from fastapi import FastAPI
 
 
 def user_compare(old_contract,new_contract):
-    breaking_changes=[]
+    breaking_changes=[] 
     
-    for old_api in old_contract["paths"]:
-        if old_api not in new_contract["paths"]:
-            breaking_changes.append(f"removed api:{old_api}")
-            
+    for path, method in old_contract["paths"].items():
+        if path not in new_contract["paths"]:
+            breaking_changes.append(f"removed api:{path}")
+        
+        for method1 in method.keys():
+            if method1 not in new_contract["paths"]:
+                breaking_changes.append(f"removed method {method.keys()} in {path}")
+          
+    print("paths:",path)
+    print("method:",method)
+         
     if breaking_changes:
         return{
-            "message":"Breaking",
+            "status":"breaking",
             "changes":breaking_changes
-        }       
-    
+        }
+        
     return {
         "status": "non_breaking",
         "changes": []
