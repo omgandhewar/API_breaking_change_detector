@@ -13,6 +13,7 @@ def user_compare(old_contract,new_contract):
             if method1 not in new_contract["paths"][path]:
                 breaking_changes.append(f"removed method {method1} in {path}")
                    
+          
     print("paths:",path)
     print("method:",method)
          
